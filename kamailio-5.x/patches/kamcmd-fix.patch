@@ -1,0 +1,10 @@
+--- a/utils/kamcmd/kamcmd.c
++++ b/utils/kamcmd/kamcmd.c
+@@ -41,6 +41,7 @@
+ #include <netdb.h> /* gethostbyname */
+ #include <fcntl.h>
+ #include <time.h> /* time */
++#include <sys/time.h> /* struct timeval */
+ 
+ #ifdef USE_READLINE
+ #include <readline/readline.h>
