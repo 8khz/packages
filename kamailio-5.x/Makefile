@@ -13,7 +13,7 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=http://www.kamailio.org/pub/kamailio/$(PKG_VERSION)/src/
 PKG_SOURCE:=kamailio-$(PKG_VERSION)$(PKG_VARIANT)_src.tar.gz
-PKG_MD5SUM:=
+PKG_HASH:=b26a719a3c1fccb717e6bb009601ccbad32c5c5b6569e2a322fe12cd7d5b7c00
 PKG_USE_MIPS16:=0
 
 PKG_LICENSE:=GPL-2.0+
@@ -91,7 +91,7 @@ endef
 define BuildKamailio5Module
   define Package/kamailio5-mod-$(subst _,-,$(1))
     $$(call Package/kamailio5/Default)
-    TITLE:= kamailio5 $(2) module
+    TITLE:=$(2) for Kamailio5
     DEPENDS:=kamailio5 $(4)
   endef
 
@@ -116,24 +116,29 @@ endef
 
 $(eval $(call BuildKamailio5Module,acc,Accounting,,+kamailio5-mod-tm))
 $(eval $(call BuildKamailio5Module,alias_db,Database-backend aliases,,+kamailio5-mod-db-sqlite))
+$(eval $(call BuildKamailio5Module,app_lua,Execute embedded Lua scripts,,+liblua))
+$(eval $(call BuildKamailio5Module,async,Asynchronous SIP handling functions,,+kamailio5-mod-tm +kamailio5-mod-tmx))
 $(eval $(call BuildKamailio5Module,auth,Authentication Framework,,))
 $(eval $(call BuildKamailio5Module,auth_db,Database-backend authentication,,+kamailio5-mod-auth +kamailio5-mod-db-sqlite))
-$(eval $(call BuildKamailio5Module,auth_diameter,Diameter-backend authentication,,+kamailio5-mod-sl))
+$(eval $(call BuildKamailio5Module,auth_diameter,Diameter authentication,,+kamailio5-mod-sl))
+$(eval $(call BuildKamailio5Module,auth_identity,Identity authentication,,+libopenssl +libcurl))
 $(eval $(call BuildKamailio5Module,auth_xkeys,Shared-key authentication,,+kamailio5-mod-auth))
+$(eval $(call BuildKamailio5Module,avp,Functions for handling AVPs,,))
 $(eval $(call BuildKamailio5Module,avpops,AVP operation,,))
 $(eval $(call BuildKamailio5Module,benchmark,Config benchmark,,))
+$(eval $(call BuildKamailio5Module,blst,Blacklisting API for config,,))
 $(eval $(call BuildKamailio5Module,cfgutils,Config utilities,,))
-$(eval $(call BuildKamailio5Module,cfg_db,Load core and module parameters from database,,+kamailio5-mod-db-sqlite))
-$(eval $(call BuildKamailio5Module,cfg_rpc,Update core and module parameters at runtime via RPC interface,,))
+$(eval $(call BuildKamailio5Module,cfg_db,Load parameters from database,,+kamailio5-mod-db-sqlite))
+$(eval $(call BuildKamailio5Module,cfg_rpc,Update parameters via RPC,,))
 $(eval $(call BuildKamailio5Module,cnxcc,Limit call duration,,+kamailio5-mod-dialog +libhiredis +libevent2))
 $(eval $(call BuildKamailio5Module,corex,Legacy functions,,))
 $(eval $(call BuildKamailio5Module,ctl,BINRPC transport interface,,))
-$(eval $(call BuildKamailio5Module,db_flatstore,Fast writing-only text database-backed,,))
-$(eval $(call BuildKamailio5Module,db_mysql,MySQL database-backend,,+libmysqlclient,mysql))
-$(eval $(call BuildKamailio5Module,db_postgres,PostgreSQL Database-backend,,+libpq,postgres))
-$(eval $(call BuildKamailio5Module,db_sqlite,Sqlite DB support,,+libsqlite3,db_sqlite))
-$(eval $(call BuildKamailio5Module,db_text,Text database-backend,,,dbtext/kamailio))
-$(eval $(call BuildKamailio5Module,db_unixodbc,UnixODBC Database-backend,,+unixodbc))
+$(eval $(call BuildKamailio5Module,db_flatstore,fast write-only text DB-backend,,))
+$(eval $(call BuildKamailio5Module,db_mysql,MySQL DB-backend,,+libmysqlclient,mysql))
+$(eval $(call BuildKamailio5Module,db_postgres,PostgreSQL DB-backend,,+libpq,postgres))
+$(eval $(call BuildKamailio5Module,db_sqlite,SQLite DB-backend,,+libsqlite3,db_sqlite))
+$(eval $(call BuildKamailio5Module,db_text,Text DB-backend,,,dbtext/kamailio))
+$(eval $(call BuildKamailio5Module,db_unixodbc,UnixODBC DB-backend,,+unixodbc))
 $(eval $(call BuildKamailio5Module,debugger,Interactive config file debugger,,))
 $(eval $(call BuildKamailio5Module,dialog,Dialog support,,+kamailio5-mod-rr +kamailio5-mod-tm))
 $(eval $(call BuildKamailio5Module,dialplan,Dialplan management,,))
@@ -150,7 +155,7 @@ $(eval $(call BuildKamailio5Module,h350,H.350,,+kamailio5-mod-ldap +libopenldap)
 $(eval $(call BuildKamailio5Module,htable,Hash Table,,))
 $(eval $(call BuildKamailio5Module,imc,IM conferencing,,+kamailio5-mod-db-mysql +kamailio5-mod-tm))
 $(eval $(call BuildKamailio5Module,ipops,IP and IPv6 operations,,))
-$(eval $(call BuildKamailio5Module,jansson,Alternative access to JSON document attributes,,+jansson))
+$(eval $(call BuildKamailio5Module,jansson,Access to JSON attributes,,+jansson))
 $(eval $(call BuildKamailio5Module,janssonrpcc,Alternative JSONRPC server,,+kamailio5-mod-jansson +libevent2))
 $(eval $(call BuildKamailio5Module,json,Access to JSON document attributes,,+libjson-c))
 $(eval $(call BuildKamailio5Module,jsonrpcs,JSONRPC server over HTTP,,+kamailio5-mod-json +libevent2))
@@ -159,9 +164,6 @@ $(eval $(call BuildKamailio5Module,lcr,Least Cost Routing,,+kamailio5-mod-tm +li
 $(eval $(call BuildKamailio5Module,ldap,LDAP connector,,+libopenldap))
 $(eval $(call BuildKamailio5Module,maxfwd,Max-Forward processor,,))
 $(eval $(call BuildKamailio5Module,mediaproxy,Automatic NAT traversal,,+kamailio5-mod-dialog))
-#$(eval $(call BuildKamailio5Module,mi_datagram,Datagram support for Management Interface,,))
-#$(eval $(call BuildKamailio5Module,mi_fifo,FIFO support for Management Interface,,))
-#$(eval $(call BuildKamailio5Module,mi_rpc,RPC support for Management Interface,,))
 $(eval $(call BuildKamailio5Module,msilo,SIP message silo,,+kamailio5-mod-tm))
 $(eval $(call BuildKamailio5Module,msrp,MSRP routing engine,,+kamailio5-mod-tls))
 $(eval $(call BuildKamailio5Module,nathelper,NAT helper,,+kamailio5-mod-usrloc))
@@ -173,12 +175,11 @@ $(eval $(call BuildKamailio5Module,permissions,Permissions control,,))
 $(eval $(call BuildKamailio5Module,pike,Flood detector,,))
 $(eval $(call BuildKamailio5Module,presence,Presence server,,+kamailio5-mod-sl +kamailio5-mod-tm +libxml2))
 $(eval $(call BuildKamailio5Module,presence_dialoginfo,Dialog Event presence,,+kamailio5-mod-presence))
-$(eval $(call BuildKamailio5Module,presence_mwi,Message Waiting Indication presence,,+kamailio5-mod-presence))
+$(eval $(call BuildKamailio5Module,presence_mwi,MWI presence,,+kamailio5-mod-presence))
 $(eval $(call BuildKamailio5Module,presence_xml,XCAP presence,,+kamailio5-mod-presence +kamailio5-mod-xcap-client))
 $(eval $(call BuildKamailio5Module,pua,Presence User Agent,,+kamailio5-mod-tm +libxml2))
 $(eval $(call BuildKamailio5Module,pua_bla,Bridged Line Appearence PUA,,+kamailio5-mod-presence +kamailio5-mod-pua +kamailio5-mod-usrloc))
 $(eval $(call BuildKamailio5Module,pua_dialoginfo,Dialog Event PUA,,+kamailio5-mod-dialog +kamailio5-mod-pua))
-#$(eval $(call BuildKamailio5Module,pua_mi,PUA Management Interface,,+kamailio5-mod-pua))
 $(eval $(call BuildKamailio5Module,pua_usrloc,PUA User Location,,+kamailio5-mod-pua +kamailio5-mod-usrloc))
 $(eval $(call BuildKamailio5Module,pua_xmpp,PUA XMPP,,+kamailio5-mod-presence +kamailio5-mod-pua +kamailio5-mod-xmpp))
 $(eval $(call BuildKamailio5Module,pv,Pseudo-Variables,,))
