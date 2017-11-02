@@ -1,0 +1,11 @@
+--- asterisk-15.0.0/configure.ac	2017-11-02 20:24:39.582145265 +0100
++++ asterisk-15new/configure.ac	2017-11-02 20:32:04.224928772 +0100
+@@ -2722,7 +2722,7 @@ else
+ fi
+ 
+ # conf_bridge (binaural rendering): check if HRIRs are available
+-AC_CHECK_FILES([bridges/bridge_softmix/include/hrirs.h])
++# AC_CHECK_FILES([bridges/bridge_softmix/include/hrirs.h])
+ 
+ AC_CONFIG_FILES([build_tools/menuselect-deps makeopts])
+ AST_CHECK_MANDATORY

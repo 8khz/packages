@@ -1,8 +1,8 @@
 menu "Advanced configuration"
-	depends on PACKAGE_asterisk13
+	depends on PACKAGE_asterisk15
 
-config ASTERISK13_LOW_MEMORY
-	bool "Optimize Asterisk 13 for low memory usage"
+config ASTERISK15_LOW_MEMORY
+	bool "Optimize Asterisk 15 for low memory usage"
 	default n
 	help
 	  Warning: this feature is known to cause problems with some modules.

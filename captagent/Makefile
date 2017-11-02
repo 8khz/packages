@@ -8,9 +8,9 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=captagent
-PKG_VERSION:=6.1.0.20
+PKG_VERSION:=6.2.11
 PKG_RELEASE:=1
-PKG_REV:=bfc0179e769f61cd80cc9516d34f61c979f02b6d
+PKG_REV:=53967ebd9facfd59a2e0a7b949bf538638dd5da6
 PKG_INSTALL:=1
 PKG_FIXUP:=autoreconf libtool
 
@@ -18,9 +18,8 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/sipcapture/captagent.git
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_REV)
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)
 
-PKG_BUILD_DIR=$(BUILD_DIR)/$(PKG_NAME)
+PKG_BUILD_DIR=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -35,8 +34,7 @@ define Package/$(PKG_NAME)
 	+libpcap \
 	+libpcre \
 	+libexpat \
-	+libuv \
-	@BROKEN
+	+libuv
   MAINTAINER:=Jiri Slachta <jiri@slachta.eu>
 endef
 
