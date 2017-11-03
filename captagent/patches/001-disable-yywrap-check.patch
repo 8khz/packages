@@ -1,0 +1,24 @@
+--- a/configure.ac
++++ b/configure.ac
+@@ -190,7 +190,7 @@ echo "        If it is in a different di
+ echo "        the LDFLAGS to set its proper path.";
+ AC_MSG_ERROR([Fatal:  libjson not found.])])])
+ 
+-AC_CHECK_LIB(fl, yywrap, [ FLEX_LIBS="-lfl" ] , [AC_MSG_ERROR([$PACKAGE_NAME requires but cannot find libfl])])
++#AC_CHECK_LIB(fl, yywrap, [ FLEX_LIBS="-lfl" ] , [AC_MSG_ERROR([$PACKAGE_NAME requires but cannot find libfl])])
+ 
+ AC_SUBST(PTHREAD_LIBS)
+ AC_SUBST(DL_LIBS)
+--- a/src/capplan.tab.y
++++ b/src/capplan.tab.y
+@@ -258,6 +258,10 @@ void yyerror(char* s)
+ 	cfg_errors++;
+ }
+ 
++int yywrap (void ) {
++        return 1;
++}
++
+ /*
+ int main(int argc, char ** argv)
+ {

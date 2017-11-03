@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2016 OpenWrt.org
+# Copyright (C) 201& OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -31,6 +31,7 @@ define Package/$(PKG_NAME)
   TITLE:=HEP Capture Agent for HOMER
   URL:=$(PKG_SOURCE_URL)
   DEPENDS:= \
+	+libjson-c \
 	+libpcap \
 	+libpcre \
 	+libexpat \
@@ -47,7 +48,19 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(CP) $(PKG_INSTALL_DIR)/usr/sbin/captagent $(1)/usr/sbin/
+
+	$(INSTALL_DIR) $(1)/usr/lib/captagent/modules
+	$(CP) \
+		$(PKG_INSTALL_DIR)/usr/lib/captagent/modules/*.so \
+		$(1)/usr/lib/captagent/modules/
+
+	$(INSTALL_DIR) $(1)/etc/captagent
+	$(CP) $(PKG_INSTALL_DIR)/etc/captagent/* $(1)/etc/captagent
+
+	$(INSTALL_DIR) $(1)/etc/captagent/captureplans
+	$(CP) $(PKG_INSTALL_DIR)/etc/captagent/captureplans/* $(1)/etc/captagent/captureplans
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
